@@ -5,32 +5,6 @@ robot_cards = []
 
 
 def game_menu():
-    print("Welcome to the card game!")
-    print("Please select a suit type:")
-    suits1 = ["♥", "♦", "♣", "♠"]
-    suits2 = ["😃", "😈", "😵", "🤢", "😨"]
-    suits3 = ["🤡", "👹", "👺", "👻", "👽", "👾", "🤖"]
-
-    print("Suit 1 : ", suits1)
-    print("Suit 2 : ", suits2)
-    print("Suit 3 : ", suits3)
-
-    # Get the user's choice of suit
-    suit_choice = input("Enter the number corresponding to your desired suit: ")
-
-    # Validate the suit choice
-    while suit_choice not in ["1", "2", "3"]:
-        print("Invalid input. Please enter a number between 1 and 3.")
-        suit_choice = input("Enter the number corresponding to your desired suit: ")
-
-    # Convert the suit choice to the corresponding string
-    if suit_choice == "1":
-        suit = suits1
-    elif suit_choice == "2":
-        suit = suits2
-    else:
-        suit = suits3
-
     # Display the menu options
     print("Menu:")
     print("1. Start Game")
@@ -39,36 +13,6 @@ def game_menu():
     print("4. Show My Cards")
     print("5. Check Win/Lose")
     print("6. Exit")
-
-    # Get the user's choice of menu option
-    menu_choice = input("Enter the number corresponding to your desired menu option: ")
-
-    # Validate the menu choice
-    while menu_choice not in ["1", "2", "3", "4", "5", "6"]:
-        print("Invalid input. Please enter a number between 1 and 6.")
-        menu_choice = input("Enter the number corresponding to your desired menu option: ")
-
-    deck = create_deck(suit, values=["A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "K", "Q"])
-    # Execute the selected menu option
-    if menu_choice == "1":
-        print("Starting game...")
-
-    elif menu_choice == "2":
-        print("Picking a card...")
-        card = pick_card(deck)
-        print(card)
-    elif menu_choice == "3":
-        print("Shuffling deck...")
-        shuffle_deck(deck,suit)
-        show_cards(deck)
-    elif menu_choice == "4":
-        print("Showing my cards...")
-
-    elif menu_choice == "5":
-        print("Checking win/lose...")
-        check_result()
-    else:
-        print("Exiting game...")
 
 
 def create_deck(suits, values):
@@ -100,6 +44,12 @@ def shuffle_deck(deck, suits):
 def pick_card(deck):
     card = random.choice(deck)
     deck.remove(card)
+    cardR = random.choice(deck)
+    deck.remove(cardR)
+    global player_cards
+    player_cards.append(card)
+    global robot_cards
+    robot_cards.append(cardR)
     return card
 
 
@@ -155,6 +105,69 @@ def card_value(card):
 
 
 def play_game():
+    print("Welcome to the card game!")
+
+    suits1 = ["♥", "♦", "♣", "♠"]
+    suits2 = ["😃", "😈", "😵", "🤢", "😨"]
+    suits3 = ["🤡", "👹", "👺", "👻", "👽", "👾", "🤖"]
+
+    print("Suit 1 : ", suits1)
+    print("Suit 2 : ", suits2)
+    print("Suit 3 : ", suits3)
+
+    # Get the user's choice of suit
+    suit_choice = input("Enter the number corresponding to your desired suit: ")
+
     game_menu()
+
+    # Validate the suit choice
+    while suit_choice not in ["1", "2", "3"]:
+        print("Invalid input. Please enter a number between 1 and 3.")
+        suit_choice = input("Enter the number corresponding to your desired suit: ")
+
+    # Convert the suit choice to the corresponding string
+    if suit_choice == "1":
+        suit = suits1
+    elif suit_choice == "2":
+        suit = suits2
+    else:
+        suit = suits3
+
+    menu_choice = 1
+    while menu_choice != 6:
+        print("Enter the number corresponding to your desired menu option: ")
+        # Get the user's choice of menu option
+        menu_choice = input()
+
+        # Validate the menu choice
+        while menu_choice not in ["1", "2", "3", "4", "5", "6"]:
+            print("Invalid input. Please enter a number between 1 and 6.")
+            menu_choice = input("Enter the number corresponding to your desired menu option: ")
+
+        deck = create_deck(suit, values=["A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "K", "Q"])
+        # Execute the selected menu option
+        if menu_choice == "1":
+            print("Starting game...")
+
+        elif menu_choice == "2":
+            print("Picking a card...")
+            card = pick_card(deck)
+            print(card)
+        elif menu_choice == "3":
+            print("Shuffling deck...")
+            shuffle_deck(deck, suit)
+
+        elif menu_choice == "4":
+            print("Showing my cards...")
+
+        elif menu_choice == "5":
+            print("Checking win/lose...")
+            if check_result(player_cards, robot_cards, suit_choice):
+                print("Player won")
+            else:
+                print("Robot won")
+
+        else:
+            print("Exiting game...")
 
 play_game()
