@@ -25,7 +25,7 @@ def create_deck(suits, values):
     return deck
 
 
-def shuffle_deck(deck, suits):
+def shuffle_deck(deck):
     random.shuffle(deck)
     # Find the indices of the A, Q, and K cards in the shuffled deck
     a_index = next((i for i, card in enumerate(deck) if card.startswith('A')), None)
@@ -54,9 +54,12 @@ def pick_card(deck):
 
 
 def show_cards(player_cards):
-    print("Your cards:")
-    for card in player_cards:
-        print(card)
+    if len(player_cards) == 0:
+        print("You have not picked a card yet")
+    else:
+        print("Your cards:")
+        for card in player_cards:
+            print(card)
 
 
 def check_result(player_cards, robot_cards, suits):
@@ -118,7 +121,6 @@ def play_game():
     # Get the user's choice of suit
     suit_choice = input("Enter the number corresponding to your desired suit: ")
 
-    game_menu()
 
     # Validate the suit choice
     while suit_choice not in ["1", "2", "3"]:
@@ -134,7 +136,8 @@ def play_game():
         suit = suits3
 
     menu_choice = 1
-    while menu_choice != 6:
+    while menu_choice != None:
+        game_menu()
         print("Enter the number corresponding to your desired menu option: ")
         # Get the user's choice of menu option
         menu_choice = input()
@@ -155,10 +158,11 @@ def play_game():
             print(card)
         elif menu_choice == "3":
             print("Shuffling deck...")
-            shuffle_deck(deck, suit)
+            shuffle_deck(deck)
 
         elif menu_choice == "4":
             print("Showing my cards...")
+            show_cards(player_cards)
 
         elif menu_choice == "5":
             print("Checking win/lose...")
@@ -169,5 +173,6 @@ def play_game():
 
         else:
             print("Exiting game...")
+            break
 
 play_game()
