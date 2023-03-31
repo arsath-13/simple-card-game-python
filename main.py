@@ -142,14 +142,27 @@ def play_game():
         # Get the user's choice of menu option
         menu_choice = input()
 
+
         # Validate the menu choice
         while menu_choice not in ["1", "2", "3", "4", "5", "6"]:
             print("Invalid input. Please enter a number between 1 and 6.")
             menu_choice = input("Enter the number corresponding to your desired menu option: ")
 
+
         deck = create_deck(suit, values=["A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "K", "Q"])
         # Execute the selected menu option
-        if menu_choice == "1":
+
+        if len(player_cards) >= 6:
+            print("You can't add more than 6 cards.")
+            show_cards(player_cards)
+            print("Checking win/lose...")
+            if check_result(player_cards, robot_cards, suit_choice):
+                print("Player won")
+            else:
+                print("Robot won")
+            # break
+
+        elif menu_choice == "1":
             print("Starting game...")
 
         elif menu_choice == "2":
