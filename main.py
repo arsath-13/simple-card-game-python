@@ -2,7 +2,7 @@ import random
 
 player_cards = []
 robot_cards = []
-
+deck = []
 
 def game_menu():
     # Display the menu options
@@ -16,7 +16,7 @@ def game_menu():
 
 
 def create_deck(suits, values):
-    deck = []
+    global deck
     for suit in suits:
         for value in values:
             card = value + " of " + suit
